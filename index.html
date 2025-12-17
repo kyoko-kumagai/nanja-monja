@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nanmon Ultimate - Fixed Image</title>
+    <title>Nanmon Ultimate - Layer Fixed</title>
     <style>
         body {
             background: radial-gradient(circle, #1a1c2c 0%, #020205 100%);
@@ -16,23 +16,28 @@
             width: 100%; height: auto; flex-grow: 1;
             display: none;
         }
-        /* タイトル画面の修正：画像タグを背面に配置 */
+
+        /* --- スタート画面のレイヤー構成 --- */
         #titleScreen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            align-items: center; z-index: 100;
-            background-color: #000;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: 100; /* 全体的なスタート画面のグループ */
         }
+
         #titleImage {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; /* 画面いっぱいに広げる */
-            z-index: -1;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            /* タイトル画像を2番目に前面にする */
+            z-index: 10; 
         }
-        #ui {
-            padding-bottom: 20px;
-            width: 100%; display: none; justify-content: center;
-            z-index: 10;
-        }
+
         .mainBtn {
             padding: 16px 40px; font-size: 20px; font-weight: bold;
             border-radius: 50px; border: none; 
@@ -41,8 +46,17 @@
             transition: transform 0.1s;
             margin-bottom: env(safe-area-inset-bottom, 40px);
             cursor: pointer;
-            z-index: 101;
+            /* ボタンを1番（最前面）にする */
+            z-index: 20; 
+            position: relative; /* z-indexを有効にするために必要 */
         }
+
+        #ui {
+            padding-bottom: 20px;
+            width: 100%; display: none; justify-content: center;
+            z-index: 50;
+        }
+
         .mainBtn:active { transform: scale(0.95); }
     </style>
 </head>
