@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nanmon Ultimate - Mobile Fixed</title>
+    <title>Nanmon Ultimate - Fixed Image</title>
     <style>
         body {
             background: radial-gradient(circle, #1a1c2c 0%, #020205 100%);
             color: white; font-family: 'Helvetica Neue', Arial, sans-serif;
             display: flex; flex-direction: column; align-items: center;
-            /* ↓ 画面の「見えている範囲」いっぱいに高さを固定する修正 */
             height: 100dvh; 
             margin: 0; overflow: hidden;
         }
@@ -17,15 +16,20 @@
             width: 100%; height: auto; flex-grow: 1;
             display: none;
         }
+        /* タイトル画面の修正：画像タグを背面に配置 */
         #titleScreen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('image.png') no-repeat center center;
-            background-size: cover;
             display: flex; flex-direction: column; justify-content: flex-end;
             align-items: center; z-index: 100;
+            background-color: #000;
+        }
+        #titleImage {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; /* 画面いっぱいに広げる */
+            z-index: -1;
         }
         #ui {
-            padding-bottom: 20px; /* 余白を少し詰めました */
+            padding-bottom: 20px;
             width: 100%; display: none; justify-content: center;
             z-index: 10;
         }
@@ -35,8 +39,9 @@
             background: linear-gradient(45deg, #d4af37, #f9f295, #d4af37);
             color: #4a3500; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
             transition: transform 0.1s;
-            margin-bottom: env(safe-area-inset-bottom, 20px); /* iPhoneの下部バー対策 */
+            margin-bottom: env(safe-area-inset-bottom, 40px);
             cursor: pointer;
+            z-index: 101;
         }
         .mainBtn:active { transform: scale(0.95); }
     </style>
@@ -44,6 +49,7 @@
 <body>
 
 <div id="titleScreen">
+    <img src="image.png" id="titleImage" alt="Title Background">
     <button id="startBtn" class="mainBtn">スタート</button>
 </div>
 
@@ -54,7 +60,6 @@
 </div>
 
 <script>
-    // --- 既存のJavaScript（そのまま） ---
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const drawBtn = document.getElementById('drawBtn');
@@ -65,7 +70,6 @@
     const dpr = window.devicePixelRatio || 1;
     function resize() {
         canvas.width = window.innerWidth * dpr;
-        // 下のUI（ボタン）分を引いた高さを計算
         canvas.height = (window.innerHeight - 100) * dpr;
         ctx.scale(dpr, dpr);
     }
